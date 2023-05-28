@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'classroom/teachers/_header.html' with active='team' %}
+    <h2 class="mb-3">{{team.quiz.name}}: {{team.name}}</h2>
+      <p class="lead">Чат</p>
+      <div class="form-group mt-3">
+        <div class="form-group mt-3 d-flex">
+  <input id="message" class="form-control">
+  <button id="send-message" class="btn btn-primary ml-3">Отправить</button>
+</div>
+      </div>
+      <div id="chat" class="overflow-auto" style="height: 150px; overflow-y: auto;">
+        {% for message in user_messages %}
+          <div class="message mb-2">
+            <small class="text-muted">{{ message.user.username }}:</small>
+            <div>{{ message.content }}</div>
+          </div>
+        {% empty %}
+          <p>Нет сообщений.</p>
+        {% endfor %}
+      </div>
+{% endblock %}
+

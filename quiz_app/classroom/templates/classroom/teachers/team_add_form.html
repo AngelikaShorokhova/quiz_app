@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags humanize %}
+
+{% block content %}
+  {% include 'classroom/teachers/_header.html' with active='team' %}
+  <h2 class="mb-3">Создать команду</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'teachers:team_list' %}" class="btn btn-outline-secondary" role="button">Отменить</a>
+  </form>
+{% endblock %}
