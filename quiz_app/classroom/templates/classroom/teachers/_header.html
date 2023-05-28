@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs nav-fill mb-3">
+  <li class="nav-item">
+    <a class="nav-link{% if active == 'main' %} active{% endif %}" href="{% url 'teachers:quiz_change_list' %}">
+      <img src="/static/img/free-icon-brain-3406898.png" alt="Icon" class="tab-icon"> Викторины и тестирования
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if active == 'quiz' %} active{% endif %}" href="{% url 'teachers:quiz_add' %}">
+      <img src="/static/img/free-icon-pencil-3094179.png" alt="Icon" class="tab-icon"> Конструктор
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if active == 'team' %} active{% endif %}" href="{% url 'teachers:team_list' %}">
+      <img src="/static/img/free-icon-team-5065003.png" alt="Icon" class="tab-icon"> Команды
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if active == 'result' %} active{% endif %}" href="{% url 'teachers:quiz_add' %}">
+      <img src="/static/img/free-icon-results-2065169.png" alt="Icon" class="tab-icon"> Результаты
+    </a>
+  </li>
+</ul>

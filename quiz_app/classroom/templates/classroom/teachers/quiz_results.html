@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags humanize %}
+
+{% block content %}
+  {% include 'classroom/teachers/_header.html' with active='result' %}
+  <h2 class="mb-3">Результаты: {{ quiz.name }}
+    <a href="{% url 'teachers:export' quiz.pk %}" class="btn btn-primary float-right">Загрузить</a>
+  </h2>
+
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Команда</th>
+          <th>Ученик</th>
+          <th>Дата прохождения</th>
+          <th>Результат</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for taken_quiz in taken_quizzes %}
+          <tr>
+            <td>{{ taken_quiz.team.name }}</td>
+            <td>{{ taken_quiz.student.name }}</td>
+            <td>{{ taken_quiz.get_date }}</td>
+            <td>{{ taken_quiz.score}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

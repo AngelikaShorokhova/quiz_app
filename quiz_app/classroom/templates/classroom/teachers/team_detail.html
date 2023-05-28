@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'classroom/teachers/_header.html' with active='team' %}
+    <h2 class="mb-3">{{team.quiz.name}}: {{team.name}}</h2>
+      <p class="lead">Чат</p>
+      <div class="form-group mt-3">
+        <div class="form-group mt-3 d-flex">
+  <input id="message" class="form-control">
+  <button id="send-message" class="btn btn-primary ml-3">Отправить</button>
+</div>
+      </div>
+      <div id="chat" class="overflow-auto" style="height: 150px; overflow-y: auto;">
+        {% for message in user_messages %}
+          <div class="message mb-2">
+            <small class="text-muted">{{ message.user.username }}:</small>
+            <div>{{ message.content }}</div>
+          </div>
+        {% empty %}
+          <p>Нет сообщений.</p>
+        {% endfor %}
+      </div>
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chat = document.querySelector('#chat');
+      const messageInput = document.querySelector('#message');
+      const sendMessageButton = document.querySelector('#send-message');
+      const nextQuestionButton = document.querySelector('#next_question');
+
+      function addMessageToChat(message) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message mb-2';
+        messageElement.innerHTML = `
+          <small class="text-muted">${message.user_name}:</small>
+          <div>${message.content}</div>
+          <small class="text-muted">${message.date_added}</small>
+        `;
+        chat.appendChild(messageElement);
+      }
+
+      function sendMessage() {
+        console.log("sendMessage() function called");
+        const content = messageInput.value;
+        const url = '{% url "students:add_message" %}';
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({ content })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'ok') {
+            addMessageToChat(data.data);
+            messageInput.value = '';
+          }
+        })
+        .catch(error => console.error(error));
+      }
+
+      sendMessageButton.addEventListener('click', sendMessage);
+      nextQuestionButton.addEventListener('click', showLog);
+    });
+  </script>
+{% endblock %}
